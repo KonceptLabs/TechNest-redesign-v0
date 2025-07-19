@@ -65,7 +65,7 @@ export default function HomePage() {
               </Link>
               <ThemeToggle />
               <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white">
-                Get Consultation
+                Get Started
               </Button>
             </nav>
             <div className="flex items-center space-x-2 md:hidden">
@@ -90,9 +90,9 @@ export default function HomePage() {
               <span className="text-blue-600 dark:text-blue-400">Smarter Choices.</span>
             </h1>
             <div className="text-xl text-stone-600 dark:text-stone-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-              <p className="mb-4">Get clarity, control and peace of mind for your connected home.</p>
+              <p className="mb-4">Navigate the complexity of your connected home with clarity and peace of mind.</p>
               <p>
-                We cut through the complexity to help you make informed decisions that protect your{" "}
+                We listen to your needs, simplifying the process to empower informed decisions that protect your{" "}
                 <span className="emphasized-word emphasized-word--blue font-semibold">family</span>,{" "}
                 <span className="emphasized-word emphasized-word--amber font-semibold">home</span> and{" "}
                 <span className="emphasized-word emphasized-word--green font-semibold">wallet</span>.
@@ -111,7 +111,7 @@ export default function HomePage() {
                 variant="outline"
                 className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 px-8 py-4 bg-transparent"
               >
-                Learn Our Process
+                See How We Simplify
               </Button>
             </div>
           </div>
@@ -135,7 +135,9 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-amber-700 dark:text-amber-400" />
               </div>
-              <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Vendor Agnostic</h3>
+              <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                Your Best Interest First
+              </h3>
               <p className="text-stone-600 dark:text-stone-300">
                 No exclusive partnerships - we recommend what's best for you
               </p>
