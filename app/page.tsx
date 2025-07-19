@@ -126,9 +126,9 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-blue-600 dark:text-blue-400" />
               </div>
-              <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Privacy First</h3>
+              <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Privacy-Centric </h3>
               <p className="text-stone-600 dark:text-stone-300">
-                Clear privacy pledge and post-installation privacy reviews
+                Committed to protecting your data from consultation to installation          
               </p>
             </div>
             <div className="text-center">
@@ -136,10 +136,10 @@ export default function HomePage() {
                 <Users className="w-8 h-8 text-amber-700 dark:text-amber-400" />
               </div>
               <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
-                Your Best Interest First
+                Customer First
               </h3>
               <p className="text-stone-600 dark:text-stone-300">
-                No exclusive partnerships - we recommend what's best for you
+                No vendor partnerships - we recommend based on your needs       
               </p>
             </div>
             <div className="text-center">
@@ -148,7 +148,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Local & Personal</h3>
               <p className="text-stone-600 dark:text-stone-300">
-                Plainfield-based with a personal, community-focused approach
+                Family-owned, Plainfield-based and community-focused 
               </p>
             </div>
           </div>
