@@ -1,6 +1,14 @@
+"use client"
+
+import type React from "react"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Shield,
   Users,
@@ -10,9 +18,15 @@ import {
   Mail,
   MapPin,
   ArrowRight,
-  Lightbulb,
-  Lock,
-  Settings,
+  Monitor,
+  DoorOpen,
+  Thermometer,
+  Camera,
+  Wifi,
+  Speaker,
+  Home,
+  Laptop,
+  Wrench,
   Heart,
 } from "lucide-react"
 import Link from "next/link"
@@ -20,8 +34,95 @@ import { Logo, LogoCompact } from "@/components/logo"
 import { MobileMenu } from "@/components/mobile-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { HeroVideoBackground } from "@/components/hero-video-background"
+import { useState, useEffect } from "react"
 
 export default function HomePage() {
+  const [activeStep, setActiveStep] = useState<number | null>(null)
+  const [selectedServices, setSelectedServices] = useState<string[]>([])
+  const [communicationPreferences, setCommunicationPreferences] = useState<string[]>([])
+
+  // Close card when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveStep(null)
+    }
+
+    if (activeStep !== null) {
+      document.addEventListener("click", handleClickOutside)
+      return () => document.removeEventListener("click", handleClickOutside)
+    }
+  }, [activeStep])
+
+  const handleStepClick = (stepNumber: number, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveStep(activeStep === stepNumber ? null : stepNumber)
+  }
+
+  const handleStepHover = (stepNumber: number) => {
+    setActiveStep(stepNumber)
+  }
+
+  const handleStepLeave = () => {
+    setActiveStep(null)
+  }
+
+  const handleServiceChange = (service: string, checked: boolean) => {
+    if (checked) {
+      setSelectedServices([...selectedServices, service])
+    } else {
+      setSelectedServices(selectedServices.filter((s) => s !== service))
+    }
+  }
+
+  const handleCommunicationChange = (method: string, checked: boolean) => {
+    if (checked) {
+      setCommunicationPreferences([...communicationPreferences, method])
+    } else {
+      setCommunicationPreferences(communicationPreferences.filter((m) => m !== method))
+    }
+  }
+
+  const processSteps = [
+    {
+      number: 1,
+      title: "Listen & Understand",
+      description:
+        "We start by truly understanding your lifestyle, needs, concerns, and budget. No assumptions, just genuine conversation about what matters to you and your family.",
+    },
+    {
+      number: 2,
+      title: "Educate & Explore",
+      description:
+        "We present clear, unbiased options tailored to your situation. Every recommendation comes with honest pros, cons, and privacy considerations explained in plain language.",
+    },
+    {
+      number: 3,
+      title: "Implement & Integrate",
+      description:
+        "Professional installation and configuration ensure everything works seamlessly. We handle the technical complexity so you can focus on enjoying your enhanced home.",
+    },
+    {
+      number: 4,
+      title: "Empower & Support",
+      description:
+        "Complete walkthrough of your new system, privacy settings review, and ongoing support. You'll feel confident and in control of your smart home technology.",
+    },
+  ]
+
+  const services = [
+    "TV Mounting",
+    "Video Doorbell Install",
+    "Smart Thermostat Install",
+    "Security Camera Mounting",
+    "Wifi & Network Optimization",
+    "Home Theater Setup",
+    "Home Automation Consultation",
+    "Computer Support",
+    "General Handyman Services",
+  ]
+
+  const communicationMethods = ["Email", "Phone", "Text"]
+
   return (
     <div className="min-h-screen bg-white dark:bg-stone-900 transition-colors">
       {/* Header */}
@@ -63,10 +164,21 @@ export default function HomePage() {
               >
                 Reviews
               </Link>
+              <a
+                href="tel:708-824-6378"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                (708)TCH-NEST
+              </a>
               <ThemeToggle />
-              <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white">
-                Get Started
-              </Button>
+              <Link href="#contact">
+                <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white">
+                  Get Started
+                </Button>
+              </Link>
             </nav>
             <div className="flex items-center space-x-2 md:hidden">
               <ThemeToggle />
@@ -82,7 +194,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-6 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/50 border-amber-200 dark:border-amber-700">
-              Serving Plainfield &amp; Surrounding Chicagoland Area
+              Serving Plainfield - Surrounding Chicagoland Area
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-stone-800 dark:text-stone-100 mb-6 leading-tight">
               Smart Home Tech.
@@ -99,13 +211,15 @@ export default function HomePage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4"
-              >
-                Schedule Free Consultation
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
+              <Link href="#contact">
+                <Button
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
               <Button
                 size="lg"
                 variant="outline"
@@ -119,7 +233,7 @@ export default function HomePage() {
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-16 bg-white dark:bg-stone-900">
+      <section className="py-16 bg-stone-50 dark:bg-stone-900">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
@@ -128,18 +242,16 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Privacy-Centric </h3>
               <p className="text-stone-600 dark:text-stone-300">
-                Committed to protecting your data from consultation to installation          
+                Committed to protecting your data from consultation to installation
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-amber-700 dark:text-amber-400" />
               </div>
-              <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
-                Customer First
-              </h3>
+              <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Customer First</h3>
               <p className="text-stone-600 dark:text-stone-300">
-                No vendor partnerships - we recommend based on your needs       
+                No vendor partnerships - we recommend based on your needs
               </p>
             </div>
             <div className="text-center">
@@ -147,104 +259,140 @@ export default function HomePage() {
                 <Heart className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Local & Personal</h3>
-              <p className="text-stone-600 dark:text-stone-300">
-                Family-owned, Plainfield-based and community-focused 
-              </p>
+              <p className="text-stone-600 dark:text-stone-300">Family-owned, Plainfield-based and community-focused</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-stone-50 dark:bg-stone-800">
+      <section id="services" className="py-20 bg-white dark:bg-stone-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">How We Help</h2>
+            <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">Our Services</h2>
             <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
-              From basic advice to complete smart home transformations, we're here to guide you every step of the way.
+              Professional installation and setup services to make your home smarter, safer, and more convenient.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center mb-4">
-                  <Lightbulb className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Monitor className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-3">
-                  Smart Home Consultation
-                </h3>
-                <p className="text-stone-600 dark:text-stone-300 mb-4">
-                  Get personalized recommendations based on your specific needs, budget, and privacy concerns.
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">TV Mounting</h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Professional wall mounting with cable management and optimal viewing angles.
                 </p>
-                <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-300">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Device recommendations
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Privacy assessment
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Budget planning
-                  </li>
-                </ul>
               </CardContent>
             </Card>
 
-            <Card className="border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center mb-4">
-                  <Settings className="w-6 h-6 text-amber-700 dark:text-amber-400" />
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <DoorOpen className="w-6 h-6 text-amber-700 dark:text-amber-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-3">Installation & Setup</h3>
-                <p className="text-stone-600 dark:text-stone-300 mb-4">
-                  Professional installation and configuration to ensure your devices work seamlessly together.
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                  Video Doorbell Install
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Complete installation and setup with privacy-focused configuration.
                 </p>
-                <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-300">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Professional installation
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Network optimization
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Device integration
-                  </li>
-                </ul>
               </CardContent>
             </Card>
 
-            <Card className="border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center mb-4">
-                  <Lock className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Thermometer className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-3">
-                  Security & Privacy Review
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                  Smart Thermostat Install
                 </h3>
-                <p className="text-stone-600 dark:text-stone-300 mb-4">
-                  Comprehensive review of your smart home's security and privacy settings for peace of mind.
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Energy-efficient installation with personalized scheduling setup.
                 </p>
-                <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-300">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Privacy settings walkthrough
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Network security audit
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400 mr-2" />
-                    Ongoing support
-                  </li>
-                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Camera className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                  Security Camera Mounting
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Strategic placement and secure mounting for optimal coverage.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-cyan-100 dark:bg-cyan-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Wifi className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                  Wifi & Network Optimization
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Improve coverage, speed, and security for all your connected devices.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Speaker className="w-6 h-6 text-red-600 dark:text-red-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Home Theater Setup</h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Complete audio/video system installation and calibration.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Home className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                  Home Automation Consultation
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Personalized smart home planning and device recommendations.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Laptop className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">Computer Support</h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Troubleshooting, setup, and optimization for all your devices.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 hover:shadow-lg dark:hover:shadow-xl transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Wrench className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">
+                  General Handyman Services
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">
+                  Small repairs and installations to support your tech setup.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -252,7 +400,7 @@ export default function HomePage() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white dark:bg-stone-900">
+      <section id="about" className="py-20 bg-stone-50 dark:bg-stone-900">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -302,7 +450,7 @@ export default function HomePage() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="py-20 bg-stone-50 dark:bg-stone-800">
+      <section id="process" className="py-20 bg-white dark:bg-stone-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">The TechNest Process</h2>
@@ -311,60 +459,45 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-8">
-              <div className="flex items-start space-x-6">
-                <div className="w-12 h-12 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  1
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-2">Listen & Understand</h3>
-                  <p className="text-stone-600 dark:text-stone-300">
-                    We start by truly understanding your lifestyle, needs, concerns, and budget. No assumptions, just
-                    genuine conversation about what matters to you and your family.
-                  </p>
-                </div>
-              </div>
+          <div className="max-w-6xl mx-auto">
+            {/* Timeline Container */}
+            <div className="relative">
+              {/* Timeline Line */}
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-stone-200 dark:bg-stone-700 transform -translate-y-1/2 hidden md:block"></div>
 
-              <div className="flex items-start space-x-6">
-                <div className="w-12 h-12 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  2
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-2">Educate & Explore</h3>
-                  <p className="text-stone-600 dark:text-stone-300">
-                    We present clear, unbiased options tailored to your situation. Every recommendation comes with
-                    honest pros, cons, and privacy considerations explained in plain language.
-                  </p>
-                </div>
-              </div>
+              {/* Timeline Steps */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
+                {processSteps.map((step) => (
+                  <div key={step.number} className="relative">
+                    <div className="flex flex-col items-center text-center">
+                      {/* Circle */}
+                      <div
+                        className="relative z-10 w-16 h-16 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                        onClick={(e) => handleStepClick(step.number, e)}
+                        onMouseEnter={() => handleStepHover(step.number)}
+                        onMouseLeave={handleStepLeave}
+                      >
+                        {step.number}
+                      </div>
 
-              <div className="flex items-start space-x-6">
-                <div className="w-12 h-12 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  3
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-2">
-                    Implement & Integrate
-                  </h3>
-                  <p className="text-stone-600 dark:text-stone-300">
-                    Professional installation and configuration ensure everything works seamlessly. We handle the
-                    technical complexity so you can focus on enjoying your enhanced home.
-                  </p>
-                </div>
-              </div>
+                      {/* Title */}
+                      <h3 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-2">{step.title}</h3>
 
-              <div className="flex items-start space-x-6">
-                <div className="w-12 h-12 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  4
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100 mb-2">Empower & Support</h3>
-                  <p className="text-stone-600 dark:text-stone-300">
-                    Complete walkthrough of your new system, privacy settings review, and ongoing support. You'll feel
-                    confident and in control of your smart home technology.
-                  </p>
-                </div>
+                      {/* Detail Card */}
+                      {activeStep === step.number && (
+                        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 mt-4 z-30">
+                          <Card className="w-80 max-w-sm shadow-xl border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900">
+                            <CardContent className="p-4">
+                              <p className="text-base text-stone-700 dark:text-stone-200 leading-relaxed font-medium">
+                                {step.description}
+                              </p>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -372,7 +505,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 bg-white dark:bg-stone-900">
+      <section id="testimonials" className="py-20 bg-stone-50 dark:bg-stone-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">What Our Neighbors Say</h2>
@@ -439,21 +572,131 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Home?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-            Let's have a conversation about your smart home goals. No pressure, just honest guidance from your trusted
-            local technology partner.
-          </p>
-          <Button
-            size="lg"
-            className="bg-white text-blue-600 hover:bg-stone-50 dark:bg-white dark:text-blue-600 dark:hover:bg-stone-100 px-8 py-4"
-          >
-            Schedule Your Free Consultation
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
+      {/* Contact Section */}
+      <section
+        id="contact"
+        className="py-20 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white"
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Home?</h2>
+              <p className="text-xl mb-8 opacity-90">
+                Let's have a conversation about your smart home goals. No pressure, just honest guidance from your
+                trusted local technology partner.
+              </p>
+            </div>
+
+            <form className="space-y-6">
+              {/* Row 1: Name and Email */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="name" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                    Name *
+                  </Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    required
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                    Email *
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    required
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Phone Number and Preferred Method */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="phone" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                    Phone Number *
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    required
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+                  />
+                </div>
+                <div>
+                  <Label className="text-white mb-2 block text-lg font-semibold text-green-400 text-center">
+                    Preferred Method
+                  </Label>
+                  <div className="flex gap-4 items-center justify-center mt-3">
+                    {communicationMethods.map((method) => (
+                      <div key={method} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={method}
+                          checked={communicationPreferences.includes(method)}
+                          onCheckedChange={(checked) => handleCommunicationChange(method, checked as boolean)}
+                          className="border-white/20 data-[state=checked]:bg-white data-[state=checked]:text-blue-600"
+                        />
+                        <Label htmlFor={method} className="text-white text-sm cursor-pointer">
+                          {method}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 3: Services Needed (spans both columns) */}
+              <div className="col-span-2">
+                <Label className="text-white mb-4 block text-lg font-semibold text-green-400 text-center">
+                  Services Needed
+                </Label>
+                <div className="border border-white/20 rounded-lg p-4 bg-white/5">
+                  <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto">
+                    {services.map((service) => (
+                      <div key={service} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={service}
+                          checked={selectedServices.includes(service)}
+                          onCheckedChange={(checked) => handleServiceChange(service, checked as boolean)}
+                          className="border-white/20 data-[state=checked]:bg-white data-[state=checked]:text-blue-600"
+                        />
+                        <Label htmlFor={service} className="text-white text-sm cursor-pointer">
+                          {service}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 4: Additional Notes (spans both columns) */}
+              <div className="col-span-2">
+                <Label htmlFor="notes" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                  Additional Notes
+                </Label>
+                <Textarea
+                  id="notes"
+                  rows={4}
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
+                />
+              </div>
+
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-stone-50 dark:bg-white dark:text-blue-600 dark:hover:bg-stone-100 px-12 py-4"
+                >
+                  Submit
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
 
@@ -478,11 +721,25 @@ export default function HomePage() {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-stone-300 dark:text-stone-400">(708)TCH-NEST</span>
+                  <a
+                    href="tel:708-824-6378"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-stone-300 dark:text-stone-400 hover:text-blue-400 transition-colors"
+                  >
+                    (708)TCH-NEST
+                  </a>
                 </div>
                 <div className="flex items-center">
                   <Mail className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-stone-300 dark:text-stone-400">info@technestpros.com</span>
+                  <a
+                    href="mailto:info@technestpros.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-stone-300 dark:text-stone-400 hover:text-blue-400 transition-colors"
+                  >
+                    info@technestpros.com
+                  </a>
                 </div>
                 <div className="flex items-center">
                   <MapPin className="w-5 h-5 text-blue-400 mr-3" />
