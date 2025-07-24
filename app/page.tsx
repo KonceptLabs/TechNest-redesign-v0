@@ -41,6 +41,14 @@ export default function HomePage() {
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [communicationPreferences, setCommunicationPreferences] = useState<string[]>([])
 
+  // --- FORM_HANDLER CODE (New State Variables for Contact Form)
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [additionalNotes, setAdditionalNotes] = useState('');
+  const [formMessage, setFormMessage] = useState({ text: '', type: '' });
+  // --- END MODIFIED CODE BLOCK (New State Variables for Contact Form) ---
+
   // Close card when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
@@ -122,6 +130,53 @@ export default function HomePage() {
   ]
 
   const communicationMethods = ["Email", "Phone", "Text"]
+
+  // --- FORM_HANDLER CODE (New handleSubmit function)
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent default form submission
+
+    setFormMessage({ text: 'Sending...', type: 'loading' });
+
+    const formData = {
+      name: contactName,
+      email: contactEmail,
+      phone: contactPhone,
+      preferredMethod: communicationPreferences.join(', '), // Send as comma-separated string
+      servicesNeeded: selectedServices.join(', '),         // Send as comma-separated string
+      message: additionalNotes, // Renamed 'notes' to 'message' to match your Worker expectation
+    };
+
+    try {
+     const workerUrl = 'https://technest-contact-form.dkedzior.workers.dev'; 
+
+      const response = await fetch(workerUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setFormMessage({ text: result.message, type: 'success' });
+        // Clear the form fields after successful submission
+        setContactName('');
+        setContactEmail('');
+        setContactPhone('');
+        setCommunicationPreferences([]);
+        setSelectedServices([]);
+        setAdditionalNotes('');
+      } else {
+        setFormMessage({ text: result.message || 'An unexpected error occurred.', type: 'error' });
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormMessage({ text: 'Network error. Please try again later.', type: 'error' });
+    }
+  };
+  // --- END MODIFIED CODE BLOCK (New handleSubmit function) ---
 
   return (
     <div className="min-h-screen bg-white dark:bg-stone-900 transition-colors">
@@ -587,28 +642,33 @@ export default function HomePage() {
               </p>
             </div>
 
-            <form className="space-y-6">
+            {/* --- FORM_HANDLER CODE (Contact Form JSX) --- */}
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Row 1: Name and Email */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="name" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                  <Label htmlFor="name" className="text-white mb-2 block text-center text-green-400">
                     Name *
                   </Label>
                   <Input
                     id="name"
                     type="text"
                     required
+                    value={contactName} // Bind to state
+                    onChange={(e) => setContactName(e.target.value)} // Update state on change
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                  <Label htmlFor="email" className="text-white mb-2 block text-center text-green-400">
                     Email *
                   </Label>
                   <Input
                     id="email"
                     type="email"
                     required
+                    value={contactEmail} // Bind to state
+                    onChange={(e) => setContactEmail(e.target.value)} // Update state on change
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
                   />
                 </div>
@@ -617,43 +677,43 @@ export default function HomePage() {
               {/* Row 2: Phone Number and Preferred Method */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="phone" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                  <Label htmlFor="phone" className="text-white mb-2 block text-center text-green-400">
                     Phone Number *
                   </Label>
                   <Input
                     id="phone"
                     type="tel"
                     required
+                    value={contactPhone} // Bind to state
+                    onChange={(e) => setContactPhone(e.target.value)} // Update state on change
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
                   />
                 </div>
                 <div>
-                  <Label className="text-white mb-2 block text-lg font-semibold text-green-400 text-center">
-                    Preferred Method
-                  </Label>
-                  <div className="flex gap-4 items-center justify-center mt-3">
-                    {communicationMethods.map((method) => (
-                      <div key={method} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={method}
-                          checked={communicationPreferences.includes(method)}
-                          onCheckedChange={(checked) => handleCommunicationChange(method, checked as boolean)}
-                          className="border-white/20 data-[state=checked]:bg-white data-[state=checked]:text-blue-600"
-                        />
-                        <Label htmlFor={method} className="text-white text-sm cursor-pointer">
-                          {method}
-                        </Label>
-                      </div>
-                    ))}
+                  <Label className="text-white mb-2 block text-center text-green-400">Preferred Method</Label>
+                  <div className="border border-white/20 rounded-lg p-2 bg-white/5 h-10 flex items-center justify-center">
+                    <div className="flex gap-4 items-center justify-center">
+                      {communicationMethods.map((method) => (
+                        <div key={method} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={method}
+                            checked={communicationPreferences.includes(method)}
+                            onCheckedChange={(checked) => handleCommunicationChange(method, checked as boolean)}
+                            className="border-white/20 data-[state=checked]:bg-white data-[state=checked]:text-blue-600"
+                          />
+                          <Label htmlFor={method} className="text-white text-sm cursor-pointer">
+                            {method}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Row 3: Services Needed (spans both columns) */}
               <div className="col-span-2">
-                <Label className="text-white mb-4 block text-lg font-semibold text-green-400 text-center">
-                  Services Needed
-                </Label>
+                <Label className="text-white mb-4 block text-center text-green-400">Services Needed</Label>
                 <div className="border border-white/20 rounded-lg p-4 bg-white/5">
                   <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto">
                     {services.map((service) => (
@@ -675,12 +735,14 @@ export default function HomePage() {
 
               {/* Row 4: Additional Notes (spans both columns) */}
               <div className="col-span-2">
-                <Label htmlFor="notes" className="text-white mb-2 block text-lg font-semibold text-green-400">
+                <Label htmlFor="notes" className="text-white mb-2 block text-center text-green-400">
                   Additional Notes
                 </Label>
                 <Textarea
                   id="notes"
                   rows={4}
+                  value={additionalNotes} // Bind to state
+                  onChange={(e) => setAdditionalNotes(e.target.value)} // Update state on change
                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
                 />
               </div>
@@ -695,7 +757,19 @@ export default function HomePage() {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
+              {/* --- FORM_HANDLER CODE (Form Message Display) --- */}
+              {formMessage.text && (
+                <div
+                  className={`mt-4 text-center ${
+                    formMessage.type === 'success' ? 'text-green-600' : 'text-red-600'
+                  }`}
+                >
+                  {formMessage.text}
+                </div>
+              )}
+              {/* --- END MODIFIED CODE BLOCK (Form Message Display) --- */}
             </form>
+            {/* --- END MODIFIED CODE BLOCK (Contact Form JSX) --- */}
           </div>
         </div>
       </section>
