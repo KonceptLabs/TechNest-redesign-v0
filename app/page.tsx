@@ -162,12 +162,12 @@ export default function HomePage() {
       if (response.ok) {
         setFormMessage({ text: result.message, type: 'success' });
         // Clear the form fields after successful submission
-        setContactName('');
-        setContactEmail('');
-        setContactPhone('');
-        setCommunicationPreferences([]);
-        setSelectedServices([]);
-        setAdditionalNotes('');
+        // setContactName('');
+        // setContactEmail('');
+        // setContactPhone('');
+        // setCommunicationPreferences([]);
+        // setSelectedServices([]);
+        // setAdditionalNotes('');
       } else {
         setFormMessage({ text: result.message || 'An unexpected error occurred.', type: 'error' });
       }
