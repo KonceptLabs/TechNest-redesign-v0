@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X } from 'lucide-react'
 import Link from "next/link"
 
 export function MobileMenu() {
@@ -26,18 +26,18 @@ export function MobileMenu() {
                 Services
               </Link>
               <Link
-                href="#about"
-                className="text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link
                 href="#process"
                 className="text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Process
+              </Link>
+              <Link
+                href="#about"
+                className="text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                About
               </Link>
               <Link
                 href="#testimonials"

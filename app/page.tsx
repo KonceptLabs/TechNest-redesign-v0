@@ -9,26 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
-import {
-  Shield,
-  Users,
-  CheckCircle,
-  Star,
-  Phone,
-  Mail,
-  MapPin,
-  ArrowRight,
-  Monitor,
-  DoorOpen,
-  Thermometer,
-  Camera,
-  Wifi,
-  Speaker,
-  Home,
-  Laptop,
-  Wrench,
-  Heart,
-} from "lucide-react"
+import { Shield, Users, CheckCircle, Star, Phone, Mail, MapPin, ArrowRight, Monitor, DoorOpen, Thermometer, Camera, Wifi, Speaker, Home, Laptop, Wrench, Heart } from 'lucide-react'
 import Link from "next/link"
 import { Logo, LogoCompact } from "@/components/logo"
 import { MobileMenu } from "@/components/mobile-menu"
@@ -42,11 +23,11 @@ export default function HomePage() {
   const [communicationPreferences, setCommunicationPreferences] = useState<string[]>([])
 
   // --- FORM_HANDLER CODE (New State Variables for Contact Form)
-  const [contactName, setContactName] = useState('');
-  const [contactEmail, setContactEmail] = useState('');
-  const [contactPhone, setContactPhone] = useState('');
-  const [additionalNotes, setAdditionalNotes] = useState('');
-  const [formMessage, setFormMessage] = useState({ text: '', type: '' });
+  const [contactName, setContactName] = useState("")
+  const [contactEmail, setContactEmail] = useState("")
+  const [contactPhone, setContactPhone] = useState("")
+  const [additionalNotes, setAdditionalNotes] = useState("")
+  const [formMessage, setFormMessage] = useState({ text: "", type: "" })
   // --- END MODIFIED CODE BLOCK (New State Variables for Contact Form) ---
 
   // Close card when clicking outside
@@ -133,55 +114,58 @@ export default function HomePage() {
 
   // --- FORM_HANDLER CODE (New handleSubmit function)
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault() // Prevent default form submission
 
-    setFormMessage({ text: 'Sending...', type: 'loading' });
+    setFormMessage({ text: "Sending...", type: "loading" })
 
     const formData = {
       name: contactName,
       email: contactEmail,
       phone: contactPhone,
-      preferredMethod: communicationPreferences.join(', '), // Send as comma-separated string
-      servicesNeeded: selectedServices.join(', '),         // Send as comma-separated string
+      preferredMethod: communicationPreferences.join(", "), // Send as comma-separated string
+      servicesNeeded: selectedServices.join(", "), // Send as comma-separated string
       message: additionalNotes, // Renamed 'notes' to 'message' to match your Worker expectation
-    };
+    }
 
     try {
-     const workerUrl = 'https://technest-contact-form.dkedzior.workers.dev'; 
+      const workerUrl = "https://technest-contact-form.dkedzior.workers.dev"
 
       const response = await fetch(workerUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      });
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
       if (response.ok) {
-        setFormMessage({ text: result.message, type: 'success' });
+        setFormMessage({ text: result.message, type: "success" })
         // Clear the form fields after successful submission
-        setContactName('');
-        setContactEmail('');
-        setContactPhone('');
-        setCommunicationPreferences([]);
-        setSelectedServices([]);
-        setAdditionalNotes('');
+        setContactName("")
+        setContactEmail("")
+        setContactPhone("")
+        setCommunicationPreferences([])
+        setSelectedServices([])
+        setAdditionalNotes("")
       } else {
-        setFormMessage({ text: result.message || 'An unexpected error occurred.', type: 'error' });
+        setFormMessage({ text: result.message || "An unexpected error occurred.", type: "error" })
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      setFormMessage({ text: 'Network error. Please try again later.', type: 'error' });
+      console.error("Form submission error:", error)
+      setFormMessage({ text: "Network error. Please try again later.", type: "error" })
     }
-  };
+  }
   // --- END MODIFIED CODE BLOCK (New handleSubmit function) ---
 
   return (
     <div className="min-h-screen bg-white dark:bg-stone-900 transition-colors">
       {/* Header */}
-      <header className="border-b border-stone-200 dark:border-stone-700 bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm sticky top-0 z-50">
+      <header
+        id="top"
+        className="border-b border-stone-200 dark:border-stone-700 bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm sticky top-0 z-50"
+      >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -202,16 +186,16 @@ export default function HomePage() {
                 Services
               </Link>
               <Link
-                href="#about"
-                className="text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                About
-              </Link>
-              <Link
                 href="#process"
                 className="text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
                 Process
+              </Link>
+              <Link
+                href="#about"
+                className="text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                About
               </Link>
               <Link
                 href="#testimonials"
@@ -320,8 +304,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-white dark:bg-stone-800">
+      {/* Services Section - First in order */}
+      <section id="services" className="py-20 bg-white dark:bg-stone-800 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">Our Services</h2>
@@ -454,58 +438,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-stone-50 dark:bg-stone-900">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">Your Trusted Local Partner</h2>
-              <p className="text-xl text-stone-600 dark:text-stone-300">
-                Two decades of tech leadership meets genuine community care
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="w-full h-64 bg-gradient-to-br from-stone-200 to-blue-200 dark:from-stone-700 dark:to-blue-800 rounded-lg flex items-center justify-center mb-6">
-                  <Users className="w-16 h-16 text-stone-600 dark:text-stone-300" />
-                </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-4">
-                  From Personal Passion to Community Mission
-                </h3>
-                <p className="text-stone-600 dark:text-stone-300 mb-4">
-                  What started as taking apart the family computer decades ago has evolved into a lifetime passion for
-                  consumer technology. After two decades leading successful B2B software companies, I realized the
-                  perfect alignment: combining customer-first approach with deep tech knowledge.
-                </p>
-                <p className="text-stone-600 dark:text-stone-300 mb-6">
-                  The "aha!" moment came during casual conversations with community members who unanimously said: "I
-                  would pay good money to get that kind of guidance in my house." That's when TechNest was born.
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
-                    <span className="text-stone-700 dark:text-stone-300">20+ years of tech industry leadership</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
-                    <span className="text-stone-700 dark:text-stone-300">Customer-first approach</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
-                    <span className="text-stone-700 dark:text-stone-300">Plainfield, IL community roots</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section id="process" className="py-20 bg-white dark:bg-stone-800">
+      {/* Process Section - Second in order */}
+      <section id="process" className="py-20 bg-stone-50 dark:bg-stone-900 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">The TechNest Process</h2>
@@ -559,8 +493,58 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section id="testimonials" className="py-20 bg-stone-50 dark:bg-stone-900">
+      {/* About Section - Third in order */}
+      <section id="about" className="py-20 bg-white dark:bg-stone-800 scroll-mt-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">Your Trusted Local Partner</h2>
+              <p className="text-xl text-stone-600 dark:text-stone-300">
+                Two decades of tech leadership meets genuine community care
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="w-full h-64 bg-gradient-to-br from-stone-200 to-blue-200 dark:from-stone-700 dark:to-blue-800 rounded-lg flex items-center justify-center mb-6">
+                  <Users className="w-16 h-16 text-stone-600 dark:text-stone-300" />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-4">
+                  From Personal Passion to Community Mission
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 mb-4">
+                  What started as taking apart the family computer decades ago has evolved into a lifetime passion for
+                  consumer technology. After two decades leading successful B2B software companies, I realized the
+                  perfect alignment: combining customer-first approach with deep tech knowledge.
+                </p>
+                <p className="text-stone-600 dark:text-stone-300 mb-6">
+                  The "aha!" moment came during casual conversations with community members who unanimously said: "I
+                  would pay good money to get that kind of guidance in my house." That's when TechNest LLC was born.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
+                    <span className="text-stone-700 dark:text-stone-300">20+ years of tech industry leadership</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
+                    <span className="text-stone-700 dark:text-stone-300">Customer-first approach</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
+                    <span className="text-stone-700 dark:text-stone-300">Plainfield, IL community roots</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials - Fourth in order */}
+      <section id="testimonials" className="py-20 bg-stone-50 dark:bg-stone-900 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">What Our Neighbors Say</h2>
@@ -630,7 +614,7 @@ export default function HomePage() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="py-20 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white"
+        className="py-20 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white scroll-mt-20"
       >
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
@@ -647,7 +631,7 @@ export default function HomePage() {
               {/* Row 1: Name and Email */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="name" className="text-white mb-2 block text-center text-green-400">
+                  <Label htmlFor="name" className="text-white mb-2 block text-center text-green-400 font-bold text-lg">
                     Name *
                   </Label>
                   <Input
@@ -660,7 +644,7 @@ export default function HomePage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email" className="text-white mb-2 block text-center text-green-400">
+                  <Label htmlFor="email" className="text-white mb-2 block text-center text-green-400 font-bold text-lg">
                     Email *
                   </Label>
                   <Input
@@ -677,7 +661,7 @@ export default function HomePage() {
               {/* Row 2: Phone Number and Preferred Method */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="phone" className="text-white mb-2 block text-center text-green-400">
+                  <Label htmlFor="phone" className="text-white mb-2 block text-center text-green-400 font-bold text-lg">
                     Phone Number *
                   </Label>
                   <Input
@@ -690,7 +674,9 @@ export default function HomePage() {
                   />
                 </div>
                 <div>
-                  <Label className="text-white mb-2 block text-center text-green-400">Preferred Method</Label>
+                  <Label className="text-white mb-2 block text-center text-green-400 font-bold text-lg">
+                    Preferred Method
+                  </Label>
                   <div className="border border-white/20 rounded-lg p-2 bg-white/5 h-10 flex items-center justify-center">
                     <div className="flex gap-4 items-center justify-center">
                       {communicationMethods.map((method) => (
@@ -713,7 +699,9 @@ export default function HomePage() {
 
               {/* Row 3: Services Needed (spans both columns) */}
               <div className="col-span-2">
-                <Label className="text-white mb-4 block text-center text-green-400">Services Needed</Label>
+                <Label className="text-white mb-4 block text-center text-green-400 font-bold text-lg">
+                  Services Needed
+                </Label>
                 <div className="border border-white/20 rounded-lg p-4 bg-white/5">
                   <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto">
                     {services.map((service) => (
@@ -735,7 +723,7 @@ export default function HomePage() {
 
               {/* Row 4: Additional Notes (spans both columns) */}
               <div className="col-span-2">
-                <Label htmlFor="notes" className="text-white mb-2 block text-center text-green-400">
+                <Label htmlFor="notes" className="text-white mb-2 block text-center text-green-400 font-bold text-lg">
                   Additional Notes
                 </Label>
                 <Textarea
@@ -751,7 +739,7 @@ export default function HomePage() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-white text-blue-600 hover:bg-stone-50 dark:bg-white dark:text-blue-600 dark:hover:bg-stone-100 px-12 py-4"
+                  className="bg-white text-blue-600 hover:bg-stone-50 hover:scale-105 active:scale-95 dark:bg-white dark:text-blue-600 dark:hover:bg-stone-100 px-12 py-4 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
                   Submit
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -760,8 +748,10 @@ export default function HomePage() {
               {/* --- FORM_HANDLER CODE (Form Message Display) --- */}
               {formMessage.text && (
                 <div
-                  className={`mt-4 text-center ${
-                    formMessage.type === 'success' ? 'text-green-600' : 'text-red-600'
+                  className={`mt-6 text-center p-4 rounded-lg border ${
+                    formMessage.type === "success"
+                      ? "bg-green-600/30 border-green-400 text-white font-bold text-lg"
+                      : "bg-red-600/30 border-red-400 text-white font-bold text-lg"
                   }`}
                 >
                   {formMessage.text}
@@ -834,7 +824,7 @@ export default function HomePage() {
           </div>
 
           <div className="border-t border-stone-700 dark:border-stone-800 mt-8 pt-8 text-center text-stone-400 dark:text-stone-500">
-            <p>&copy; 2024 TechNest. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <p>&copy; 2024 TechNest LLC. All rights reserved. | Privacy Policy | Terms of Service</p>
           </div>
         </div>
       </footer>
