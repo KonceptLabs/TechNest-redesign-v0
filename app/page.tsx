@@ -183,7 +183,7 @@ export default function HomePage() {
       {/* Header */}
       <header
         id="top"
-        className="border-b border-stone-200 dark:border-stone-700 bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm sticky top-0 z-50"
+        className="border-b border-stone-200 dark:border-stone-700 bg-stone-50/95 dark:bg-stone-800/95 backdrop-blur-sm sticky top-0 z-50"
       >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -520,30 +520,20 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-stone-800 dark:text-stone-100 mb-4">Your Trusted Local Partner</h2>
-              <p className="text-xl text-stone-600 dark:text-stone-300">
-                Two decades of tech leadership meets genuine community care
+              <p className="text-xl text-stone-600 dark:text-stone-300 mb-8">
+                Simplifying smart homes, securing your future
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid md:grid-cols-2 gap-12 items-start">
               <div>
-                <div className="w-full h-64 bg-gradient-to-br from-stone-200 to-blue-200 dark:from-stone-700 dark:to-blue-800 rounded-lg flex items-center justify-center mb-6">
-                  <Users className="w-16 h-16 text-stone-600 dark:text-stone-300" />
+                <div className="w-full max-h-96 rounded-lg overflow-hidden mb-6">
+                  <img
+                    src="/desi-and-dave.jpg"
+                    alt="Desi and Dave, founders of TechNest LLC"
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-4">
-                  From Personal Passion to Community Mission
-                </h3>
-                <p className="text-stone-600 dark:text-stone-300 mb-4">
-                  What started as taking apart the family computer decades ago has evolved into a lifetime passion for
-                  consumer technology. After two decades leading successful B2B software companies, I realized the
-                  perfect alignment: combining customer-first approach with deep tech knowledge.
-                </p>
-                <p className="text-stone-600 dark:text-stone-300 mb-6">
-                  The "aha!" moment came during casual conversations with community members who unanimously said: "I
-                  would pay good money to get that kind of guidance in my house." That's when TechNest LLC was born.
-                </p>
                 <div className="space-y-3">
                   <div className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-3" />
@@ -558,6 +548,28 @@ export default function HomePage() {
                     <span className="text-stone-700 dark:text-stone-300">Plainfield, IL community roots</span>
                   </div>
                 </div>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold text-stone-800 dark:text-stone-100 mb-6">
+                  A Lifetime of Tech, A Mission for Our Community
+                </h3>
+                <p className="text-stone-600 dark:text-stone-300 mb-4">
+                  TechNest's founders have always been fascinated by technology, a passion that began with a simple
+                  curiosity about how things work. This interest led to two decades spent leading successful B2B
+                  software companies where they honed their expertise in building customer-first businesses. While their
+                  careers were focused on the corporate world, a new mission was taking shape at home while they grew
+                  roots in their community.
+                </p>
+                <p className="text-stone-600 dark:text-stone-300 mb-6">
+                  This husband and wife duo are deeply involved in giving back, from volunteering on the PTO board to
+                  coaching youth sports. They saw a growing need among their neighbors to make sense of the complex
+                  world of smart home technology. The "aha!" moment came when they saw the clear frustration homeowners
+                  felt trying to navigate the privacy, security and longevity of their home tech purchases.
+                </p>
+                <p className="text-stone-600 dark:text-stone-300 mb-6">
+                  This is why they founded TechNest LLC. They don't just install technology; they empower customers with
+                  the knowledge and confidence to make the right decisions for their homes and families.
+                </p>
               </div>
             </div>
           </div>
@@ -786,7 +798,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-stone-800 dark:bg-stone-950 text-white">
+      <footer className="py-12 bg-stone-700 dark:bg-stone-900 text-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
