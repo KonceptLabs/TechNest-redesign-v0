@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from 'lucide-react'
+import { Menu, X } from "lucide-react"
 import Link from "next/link"
 
 export function MobileMenu() {
@@ -47,7 +47,7 @@ export function MobileMenu() {
                 Reviews
               </Link>
               <Button
-                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white w-full mt-4"
+                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white w-full mt-4 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
                 onClick={() => setIsOpen(false)}
               >
                 Get Consultation

@@ -9,7 +9,26 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Shield, Users, CheckCircle, Star, Phone, Mail, MapPin, ArrowRight, Monitor, DoorOpen, Thermometer, Camera, Wifi, Speaker, Home, Laptop, Wrench, Heart } from 'lucide-react'
+import {
+  Shield,
+  Users,
+  CheckCircle,
+  Star,
+  Phone,
+  Mail,
+  MapPin,
+  ArrowRight,
+  Monitor,
+  DoorOpen,
+  Thermometer,
+  Camera,
+  Wifi,
+  Speaker,
+  Home,
+  Laptop,
+  Wrench,
+  Heart,
+} from "lucide-react"
 import Link from "next/link"
 import { Logo, LogoCompact } from "@/components/logo"
 import { MobileMenu } from "@/components/mobile-menu"
@@ -214,7 +233,7 @@ export default function HomePage() {
               </a>
               <ThemeToggle />
               <Link href="#contact">
-                <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white">
+                <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl">
                   Get Started
                 </Button>
               </Link>
@@ -253,19 +272,21 @@ export default function HomePage() {
               <Link href="#contact">
                 <Button
                   size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4"
+                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
                   Get Started
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 px-8 py-4 bg-transparent"
-              >
-                See How We Simplify
-              </Button>
+              <Link href="#process">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 px-8 py-4 bg-transparent hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
+                >
+                  See How We Simplify
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
