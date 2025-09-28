@@ -17,7 +17,7 @@ export function Logo({ variant = "header", className }: LogoProps) {
   return (
     <Link href="#top" className={cn("block", className)}>
       <Image
-        src="/logo-name-HORIZONTAL.svg"
+        src="/logo-name-HORIZONTAL-new.svg"
         alt="TechNest LLC"
         width={400}
         height={100}
@@ -32,7 +32,7 @@ export function LogoCompact({ className }: { className?: string }) {
   return (
     <Link href="#top" className={cn("block", className)}>
       <Image
-        src="/logo-name-HORIZONTAL.svg"
+        src="/logo-name-HORIZONTAL-new.svg"
         alt="TechNest LLC"
         width={200}
         height={50}
