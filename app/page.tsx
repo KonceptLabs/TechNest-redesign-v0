@@ -252,7 +252,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-6 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/50 border-amber-200 dark:border-amber-700">
-              Serving Plainfield - Surrounding Chicagoland Area
+              Serving the Chicagoland Area
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-stone-800 dark:text-stone-100 mb-6 leading-tight">
               Smart Home Tech.
@@ -809,7 +809,7 @@ export default function HomePage() {
                 Clarity, Control, and Peace of Mind for Your Connected Home.
               </p>
               <p className="text-sm text-stone-400 dark:text-stone-500">
-                Serving Plainfield, IL and surrounding communities with trusted smart home guidance.
+                Serving Chicagolande with trusted smart home guidance.
               </p>
             </div>
 
@@ -840,7 +840,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center">
                   <MapPin className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-stone-300 dark:text-stone-400">Plainfield, IL</span>
+                  <span className="text-stone-300 dark:text-stone-400">Chicagoland Area   </span>
                 </div>
               </div>
             </div>
