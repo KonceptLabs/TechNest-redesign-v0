@@ -234,7 +234,7 @@ export default function HomePage() {
               <ThemeToggle />
               <Link href="#contact">
                 <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl">
-                  Get Started
+                  Let's Chat
                 </Button>
               </Link>
             </nav>
@@ -274,8 +274,7 @@ export default function HomePage() {
                   size="lg"
                   className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  Get Started
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  Let's Chat
                 </Button>
               </Link>
               <Link href="#process">
